@@ -28,6 +28,10 @@ if not os.getenv("GROQ_API_KEY"):
     st.error("LỖI: Chưa cấu hình GROQ_API_KEY trong file .env!")
     st.stop()
 
+# Đảm bảo thư mục data đầu vào luôn tồn tại
+if not os.path.exists(Config.RAW_DATA_DIR):
+    os.makedirs(Config.RAW_DATA_DIR)
+
 # --- CẤU HÌNH GIAO GIỆN STREAMLIT WEB UI ---
 st.set_page_config(page_title="AI Multi-Agent RAG", page_icon="🤖", layout="wide")
 
