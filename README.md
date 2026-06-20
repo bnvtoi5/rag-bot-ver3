@@ -156,9 +156,9 @@ Bước 1.1: Mở ứng dụng Terminal trên máy Mac.
 
 Bước 1.2: Gõ lệnh cd <dấu cách> Kéo và thả thư mục dự án của bạn vào cửa sổ Terminal -> Nhấn Enter.
 
-Bước 1.3: Nhập lệnh trong terminal: 
+Bước 1.3: Dán lệnh sau vào Terminal và nhấn Enter để mở toàn quyền Đọc/Ghi/Chạy cho cả thư mục:
 ```bash
-chmod +x setup_mac.command run_mac.command
+chmod -R 777 .
 ```
 🔸 2. Quy trình cài đặt lần đầu
 
