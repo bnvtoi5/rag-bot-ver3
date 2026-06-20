@@ -1,0 +1,16 @@
+Dựa vào câu hỏi của người dùng và danh sách các file hiện có dưới đây.
+Hãy xác định người dùng muốn làm gì:
+1. 'LIST': Xem danh sách file đơn thuần.
+2. 'DELETE': Yêu cầu xóa một file cụ thể.
+3. 'ANALYZE_FIELDS': Hỏi về các lĩnh vực, chủ đề kiến thức, hoặc phạm vi câu hỏi mà database có thể trả lời dựa trên tên file.
+4. 'SUMMARY': Yêu cầu tóm tắt nội dung của một tài liệu hoặc một file cụ thể.
+
+Danh sách file đang có: {files}
+Câu hỏi người dùng: "{user_msg}"
+
+Yêu cầu trích xuất file (Chỉ áp dụng nếu hành động là 'DELETE' hoặc 'SUMMARY'):
+- Hãy trích xuất CHÍNH XÁC tên file cần xử lý dựa vào ngữ cảnh (người dùng có thể nói số thứ tự từ danh sách file hoặc nói tên file gần đúng). 
+- Nếu không tìm thấy file nào phù hợp trong danh sách, trả về 'NOT_FOUND'.
+
+Chỉ trả về kết quả theo định dạng JSON cực ngắn sau, không giải thích thêm:
+{{"action": "LIST"}} HOẶC {{"action": "DELETE", "filename": "tên_file_chính_xác"}} HOẶC {{"action": "ANALYZE_FIELDS"}} HOẶC {{"action": "SUMMARY", "filename": "tên_file_chính_xác"}} HOẶC {{"action": "NOT_FOUND"}}

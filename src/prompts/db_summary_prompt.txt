@@ -1,0 +1,10 @@
+Bạn là một chuyên gia phân tích dữ liệu và tóm tắt văn bản chuyên nghiệp. 
+Hãy đọc toàn bộ nội dung văn bản dưới đây của file "{filename}" và tạo một bản tóm tắt thật chất lượng, gãy gọn bằng tiếng Việt.
+
+Nội dung văn bản gốc trích từ Database:
+{file_content}
+
+Yêu cầu bản tóm tắt:
+1. Trình bày rõ ràng theo cấu trúc: Tổng quan chung -> Các ý chính cốt lõi (dạng danh sách gạch đầu dòng) -> Kết luận/Thông điệp chính.
+2. Tuyệt đối không thêm bớt các thông tin nằm ngoài nội dung văn bản được cung cấp ở trên.
+3. Độ dài súc tích, lược bỏ các phần râu ria, giữ lại các số liệu quan trọng (nếu có).

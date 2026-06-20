@@ -1,0 +1,18 @@
+# Không đẩy môi trường ảo lên Git (Rất nặng)
+.venv/
+venv/
+ENV/
+
+# Không đẩy file cấu hình bảo mật chứa API Key của bạn (Bảo mật tuyệt đối)
+.env
+
+# Không đẩy thư mục cache lưu trữ tạm và file tạm
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+
+# Không đẩy thư mục dữ liệu cục bộ (Nếu có)
+data/raw/*
+data/processed/*
+data/embeddings_cache/
