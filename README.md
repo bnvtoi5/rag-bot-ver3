@@ -134,7 +134,7 @@ Hệ thống RAG lưu trữ dữ liệu tập trung trên không gian đám mây
 
 Bước 1.1: Truy cập vào thư mục dự án đã giải nén, tìm và nhấp đúp chuột vào file setup.bat.
 
-Bước 1.2: Màn hình console màu đen sẽ hiện ra -> Bạn hãy dán mã GROQ_API_KEY của mình vào -> Nhấn Enter.
+Bước 1.2: Màn hình console màu đen sẽ hiện ra -> Bạn hãy dán mã API key/ Token/ URL của mình vào -> Nhấn Enter.
 
 Bước 1.3: Chờ hệ thống tự động thiết lập môi trường ảo (.venv) và tải thư viện. Khi màn hình hiện thông báo [THANH CONG], bạn có thể tắt cửa sổ đó đi.
 
@@ -164,7 +164,7 @@ chmod +x setup_mac.command run_mac.command
 
 Bước 2.1: Nhấp đúp chuột vào file setup_mac.command.
 
-Bước 2.2: Khi màn hình Terminal hiện yêu cầu nhập Key -> Dán mã GROQ_API_KEY của bạn vào -> Nhấn Enter.
+Bước 2.2: Khi màn hình Terminal hiện yêu cầu nhập Key -> Dán mã API key/ Token/ URL của bạn vào -> Nhấn Enter.
 
 Bước 2.3: Chờ hệ thống cài đặt tự động. Sau khi hoàn tất thành công, bạn có thể đóng tab Terminal này lại.
 
