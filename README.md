@@ -26,30 +26,29 @@ Link deploy streamlit: https://rag-chatbot-app-h3ewsswujfnxzfy46g5z8w.streamlit.
 
 ```text
 ├── data/
-│   ├── raw/            # Chứa file tài liệu mới tải lên (.txt, .pdf)
-│   └── processed/      # Tự động lưu trữ file gốc sau khi nạp xong
-├── chroma_db/           # Cơ sở dữ liệu Vector lưu trữ vật lý cục bộ
+│   ├── raw/            # Chứa file tài liệu mới tải lên (.txt, .pdf, .docx)
+│   └── processed/      # Tự động lưu trữ file gốc sau khi nạp xong vào Qdrant
 ├── src/
-│   ├── agents/          # Tầng logic tư duy và điều phối tác nhân AI
-│   │   ├── supervisor.py     # Agent trưởng phòng phân tích Intent người dùng
+│   ├── agents/          # Tầng logic tư duy và điều phối tác nhân AI (LangGraph)
+│   │   ├── supervisor.py     # Agent trưởng phòng phân tích Intent điều phối luồng
 │   │   ├── rag_agent.py      # Agent chuyên trách tra cứu tri thức tài liệu
-│   │   ├── analyst_agent.py  # Agent phân tích dữ liệu chuyên sâu
+│   │   ├── db_management.py  # Agent quản lý danh sách và xóa file tự động
 │   │   └── graph.py          # Sơ đồ mạng lưới kết nối các Agent
 │   ├── database/        # Tầng kết nối và cấu hình Vector DB
-│   │   ├── chroma_client.py  # Khởi tạo kết nối ChromaDB nhận/xuất dữ liệu
-│   │   └── embeddings.py     # Cấu hình mô hình nhúng số hóa văn bản
+│   │   ├── qdrant_client.py  # Khởi tạo kết nối Qdrant Cloud (Tự động băm lô & lập chỉ mục)
+│   │   └── embeddings.py     # Cấu hình mô hình nhúng văn bản (Chạy CPU tối ưu RAM 8GB)
 │   ├── ingestion/       # Tầng tiền xử lý dữ liệu đầu vào
-│   │   ├── loaders.py        # Quét và đọc cấu trúc file .txt, .pdf
-│   │   └── splitter.py       # Băm nhỏ văn bản & Thuật toán tính số dòng/trang
+│   │   ├── loaders.py        # Quét và đọc cấu trúc file (.txt, .pdf, .docx)
+│   │   └── splitter.py       # Băm nhỏ văn bản & Thuật toán ánh xạ dòng/trang chống ảo giác
 │   ├── prompts/         # Quản lý tập trung hệ thống Prompt (Tách biệt khỏi Code)
 │   │   ├── supervisor_prompt.txt
 │   │   └── rag_prompt.txt
-│   └── config.py        # Quản lý tập trung các hằng số hệ thống
-├── .env                 # Nơi cấu hình bảo mật API Key cá nhân
-├── app.py               # Giao diện chính của ứng dụng (Streamlit Web UI)
-├── run_ingest.py        # Script thực thi nạp/nhúng dữ liệu tự động ngầm
-├── setup.bat / setup_mac.command # Script cài đặt tự động 1-click
-├── run.bat / run_mac.command     # Script chạy ứng dụng nhanh 1-click
+│   └── config.py        # Quản lý tập trung cấu hình hệ thống (Hỗ trợ Hybrid Local/.env/Secrets)
+├── .env                 # Nơi cấu hình bảo mật API Key cá nhân (Đã chặn đẩy lên GitHub)
+├── main.py              # Giao diện chính của ứng dụng (Streamlit Web UI + Real-time Streaming)
+├── run_ingest.py        # Script xử lý nhúng và đẩy dữ liệu lên Qdrant Cloud theo lô (Batching)
+├── setup.bat / setup_mac.sh # Script cài đặt môi trường tự động 1-click (Windows/Mac)
+├── run.bat / run_mac.command # Script kích hoạt ứng dụng nhanh 1-click (Windows/Mac)
 └── requirements.txt     # Danh sách các thư viện phần mềm bắt buộc cài đặt
 ```
 
@@ -82,6 +81,50 @@ Sau khi tải xong, hãy giải nén file ZIP đó vào một thư mục trên m
 
 ⚠️ LƯU Ý: Tuyệt đối không chia sẻ API Key này cho bất kỳ ai. Bạn dán nó vào Terminal lúc chạy file setup.bat hoặc setup_mac.command là được.
 
+---
+
+## 🔑 Hướng dẫn tạo Hugging Face Token (Bắt buộc)
+
+Để hệ thống tự động tải mô hình nhúng văn bản (Embedding Model) về máy, bạn cần một mã Token miễn phí:
+
+  ❇️ Truy cập vào trang: https://huggingface.co
+  
+  ❇️ Đăng ký hoặc đăng nhập vào tài khoản Hugging Face của bạn.
+  
+  ❇️ Nhấn vào nút **Create new token** (Tạo token mới).
+  
+  ❇️ Điền các thông tin cơ bản:
+      - **Token name**: Đặt tên bất kỳ (Ví dụ: `rag-bot-token`).
+      - **Token type**: Chọn quyền **Read** (Chỉ đọc) để bảo mật tốt nhất.
+  
+  ❇️ Kéo xuống cuối trang và nhấn nút **Generate token**.
+  
+  ❇️ Nhấn biểu tượng sao chép (Copy) đoạn mã token vừa sinh ra (Chuỗi có dạng bắt đầu bằng `hf_...`).
+
+---
+
+## 🔑 Hướng dẫn tạo tài khoản & Lấy cấu hình Qdrant Cloud (Bắt buộc)
+
+Hệ thống RAG lưu trữ dữ liệu tập trung trên không gian đám mây quốc tế, bạn cần khởi tạo một phân vùng lưu trữ miễn phí:
+
+  ❇️ Truy cập vào trang quản trị: https://qdrant.io
+  
+  ❇️ Đăng ký tài khoản mới (Khuyên dùng phương thức liên kết nhanh **Sign in with Google**).
+  
+  ❇️ Sau khi đăng nhập, tại mục **Clusters**, nhấn nút **Create Cluster** để tạo một cụm máy chủ miễn phí (Free Tier):
+      - Giữ nguyên cấu hình mặc định (Môi trường Cloud miễn phí cung cấp sẵn 1GB RAM và 0.5 vCPU).
+      - Nhấn **Create** và đợi khoảng 1-2 phút để hạ tầng đám mây tự động dựng cấu hình ngầm.
+  
+  ❇️ **Lấy thông tin đường dẫn kết nối (QDRANT_URL):**
+      - Sau khi cụm máy chủ chuyển sang trạng thái hoạt động màu xanh lá cây, hãy tìm mục **Endpoint**.
+      - Sao chép toàn bộ đường dẫn URL đó (Đường dẫn có dạng: `https://qdrant.io` hoặc không có cổng `:6333`).
+  
+  ❇️ **Tạo mã bảo mật truy cập dữ liệu (QDRANT_API_KEY):**
+      - Tại thanh menu điều hướng bên trái giao diện web, nhấn vào mục **API Keys**.
+      - Nhấn nút **Create API Key**.
+      - Chọn đúng tên Cluster bạn vừa khởi tạo ở bước trên và bấm **Create**.
+      - Sao chép (Copy) chuỗi API Key dài xuất hiện trên màn hình ngay lập tức (Vì hệ thống chỉ hiển thị nó một lần duy nhất).
+      
 ---
 
 ## 🪟 Hướng Dẫn Cài Đặt & Khởi Chạy Trên Windows
