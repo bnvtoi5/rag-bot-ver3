@@ -1,7 +1,7 @@
 # Enterprise Multi-Agent RAG System 🤖📦
 
 Hệ thống Chatbot tra cứu tài liệu nội bộ doanh nghiệp ứng dụng kiến trúc Đa tác nhân (Multi-Agent Workflow) qua **LangGraph**, lưu trữ vector cục bộ bằng **ChromaDB**, và vận hành tối ưu trên phần cứng văn phòng (**RAM 8GB**).
-Link deploy streamlit: https://rag-chatbot-app-h3ewsswujfnxzfy46g5z8w.streamlit.app/
+Link deploy streamlit: https://rag-bot-ver3-s8vlzxapexldtzt7f9fkts.streamlit.app/
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Framework](https://img.shields.io/badge/LangGraph-Multi--Agent-orange)
